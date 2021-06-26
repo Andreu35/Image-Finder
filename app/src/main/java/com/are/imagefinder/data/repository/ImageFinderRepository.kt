@@ -6,5 +6,6 @@ import javax.inject.Inject
 class ImageFinderRepository @Inject constructor(private val remoteDataSource: ImageFinderDataSource) {
 
     // Remote
-    suspend fun searchByTag(tag: String) = remoteDataSource.searchByTag(tag)
+    suspend fun searchRecentUploadedPictures() = remoteDataSource.searchRecentUploadedPictures()
+    suspend fun searchPictureByTag(tag: String) = remoteDataSource.searchPictureByTag(tag)
 }

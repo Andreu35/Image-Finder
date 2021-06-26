@@ -5,7 +5,11 @@ import javax.inject.Inject
 
 class ImageFinderDataSource @Inject constructor(private val api: ImageFinderApi): BaseDataSource() {
 
-    suspend fun searchByTag(tag: String) = getResult {
+    suspend fun searchRecentUploadedPictures() = getResult {
+        api.getSearchPicture()
+    }
+
+    suspend fun searchPictureByTag(tag: String) = getResult {
         api.getSearchPictureByTag(tag)
     }
 }
