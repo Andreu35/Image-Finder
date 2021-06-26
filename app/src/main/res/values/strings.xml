@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">ImageFinder</string>
+    <string name="app_name">Image Finder</string>
+    <string name="searched">Search Result</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorites</string>
+    <string name="search">Search</string>
 </resources>
