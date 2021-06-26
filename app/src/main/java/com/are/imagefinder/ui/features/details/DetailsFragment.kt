@@ -14,6 +14,7 @@ import android.view.animation.LinearInterpolator
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
+import com.are.imagefinder.R
 import com.are.imagefinder.data.model.Item
 import com.are.imagefinder.databinding.FragmentDetailsBinding
 import com.are.imagefinder.extensions.autoCleared
@@ -88,6 +89,7 @@ class DetailsFragment : BaseFragment() {
                         } else {
                             Html.fromHtml(items?.get(position)?.description)
                         }
+                    binding.textDetailsTags.text = getString(R.string.tags_list, items?.get(position)?.tags?.replace(" ", " | | "))
                 }
             })
             setCurrentItem(currentPosition, false)

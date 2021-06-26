@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Image Finder</string>
-    <string name="searched">Search Result</string>
     <string name="home">Home</string>
     <string name="favorite">Favorites</string>
     <string name="search">Search</string>
+    <string name="tags">Tags:</string>
+    <string name="tags_list">| %s |</string>
 </resources>
