@@ -26,6 +26,7 @@ class HomeFragment : BaseFragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     private var querySearch: String = ""
+    private var isFirstTime = true
 
     @Inject
     lateinit var preferences: AppPreferences
@@ -70,6 +71,10 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.swipeToRefresh.setOnRefreshListener {
+            fetchData()
+        }
+
         viewModel.homeList.observe(viewLifecycleOwner, {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
@@ -80,7 +85,6 @@ class HomeFragment : BaseFragment() {
                 }
                 Resource.Status.ERROR -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    Log.e("HOMEFRAGMENT", it.message!!)
                     binding.progressBar.goneUnless(false)
                 }
                 Resource.Status.LOADING -> {
@@ -123,6 +127,7 @@ class HomeFragment : BaseFragment() {
                     bundle.putSerializable(Constants.ITEMS, items as Serializable)
                     openNewFragment(R.id.action_home_to_details, bundle)
                 }
+                binding.swipeToRefresh.isRefreshing = false
             }
         }
     }
@@ -130,8 +135,17 @@ class HomeFragment : BaseFragment() {
     /**
      * Fetch new data from query if not null or blank.
      * If query is null or blank, fetch recent uploaded.
-     * @param query Query String
      */
+    private fun fetchData() {
+        if(preferences.contains(Constants.PREF_QUERY)){
+            preferences.getString(Constants.PREF_QUERY, "")?.let {
+                fetch(it)
+            }
+        } else {
+            fetch(null)
+        }
+    }
+
     private fun fetch(query: String?){
         if (query.isNullOrBlank()) {
             fetchRecentUploadedPictures()
@@ -142,12 +156,9 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if(preferences.contains(Constants.PREF_QUERY)){
-            preferences.getString(Constants.PREF_QUERY, "")?.let {
-                fetch(it)
-            }
-        } else {
-            fetch(null)
+        if (isFirstTime) {
+            isFirstTime = false
+            fetchData()
         }
     }
 }
