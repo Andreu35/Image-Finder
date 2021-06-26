@@ -146,6 +146,8 @@ class HomeFragment : BaseFragment() {
             preferences.getString(Constants.PREF_QUERY, "")?.let {
                 fetch(it)
             }
+        } else {
+            fetch(null)
         }
     }
 }
